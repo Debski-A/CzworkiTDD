@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Czworki.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CzworkiTDD</a> &gt; <a href="index.source.html" class="el_package">com.debski</a> &gt; <span class="el_source">Czworki.java</span></div><h1>Czworki.java</h1><pre class="source lang-java linenums">package com.debski;
+
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.StringJoiner;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class Czworki {
+<span class="pc" id="L11">	public enum Colors {</span>
+<span class="fc" id="L12">		CZERWONY(&quot;C&quot;),</span>
+<span class="fc" id="L13">		ZIELONY(&quot;Z&quot;),</span>
+<span class="fc" id="L14">		PUSTE(&quot; &quot;);</span>
+		
+		private String shortName;
+		private String name;
+		
+<span class="fc" id="L19">		Colors(String shortName) {</span>
+<span class="fc" id="L20">			this.shortName = shortName;</span>
+<span class="pc bpc" id="L21" title="5 of 14 branches missed.">			switch(this.shortName) {</span>
+			case &quot;C&quot;: {
+<span class="fc" id="L23">				name = &quot;Czerwony&quot;;</span>
+<span class="fc" id="L24">				break;</span>
+			}
+			case &quot;Z&quot;: {
+<span class="fc" id="L27">				name = &quot;Zielony&quot;;</span>
+<span class="fc" id="L28">				break;</span>
+			}
+			case &quot; &quot;: {
+<span class="fc" id="L31">				name = &quot;Puste&quot;;</span>
+				break;
+			}
+			}
+<span class="fc" id="L35">		}</span>
+	}
+	
+	private static final int ROWS = 6;
+	private static final int COLUMNS = 7;
+	
+	private Colors board[][];
+	private int numberOfDiscs;
+	
+	private Colors selectedPlayer;
+	public Colors getSelectedPlayer() {
+<span class="fc" id="L46">		out.println(status);</span>
+<span class="fc" id="L47">		return this.selectedPlayer;</span>
+	}
+	
+<span class="fc" id="L50">	private String status = &quot;Kolejny gracz: Czerwony\n\n&quot;;</span>
+	private PrintStream out;
+	
+<span class="fc" id="L53">	public Czworki(PrintStream out) {</span>
+<span class="fc" id="L54">		board = new Colors[ROWS][COLUMNS];</span>
+<span class="fc" id="L55">		selectedPlayer = Colors.PUSTE;</span>
+<span class="fc" id="L56">		numberOfDiscs = 0;</span>
+<span class="fc" id="L57">		this.out = out;</span>
+		
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		for(Colors[] row : board) {</span>
+<span class="fc" id="L60">			Arrays.fill(row, Colors.PUSTE);</span>
+		}
+<span class="fc" id="L62">	}</span>
+	
+	public int getNumberOfDiscs() {
+<span class="fc" id="L65">		return this.numberOfDiscs;</span>
+	}
+	
+	public boolean isFinished() {
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		return this.numberOfDiscs == ROWS * COLUMNS;</span>
+	}
+	
+//	//TODO DO ZBADABNIA
+//	public int getNumberOfDiscs2() {
+//		return IntStream.range(0, COLUMNS)
+//				.map(this::getNumberOfDiscsInColumn).sum();
+//	}
+//	
+//	public int getNumberOfDiscsInColumn(int column) {
+//		return (int) IntStream.range(0,  ROWS)
+//				.filter(row -&gt; !Colors.PUSTE
+//				.equals(board[row][column]))
+//				.count();
+//	}
+//	//TODO
+	
+	public int putDisc(int column) {
+<span class="fc" id="L87">		checkInput(column);</span>
+<span class="fc" id="L88">		choosePlayer();</span>
+		int row;
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		for(row = 0; row &lt; ROWS; row++) {</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			if(board[row][column].equals(Colors.PUSTE)) {</span>
+<span class="fc" id="L92">				board[row][column] = selectedPlayer;</span>
+<span class="fc" id="L93">				numberOfDiscs++;</span>
+<span class="fc" id="L94">				break;</span>
+			}
+		}
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if(row == ROWS) throw new RuntimeException(&quot;Brak miejsca w kolumnie nr &quot; + column);</span>
+<span class="fc" id="L98">		checkForWin(row, column);</span>
+<span class="fc" id="L99">		printBoard();</span>
+<span class="fc" id="L100">		return row;</span>
+	}
+	
+	private void checkInput(int column) {
+<span class="pc bpc" id="L104" title="1 of 4 branches missed.">		if(column &lt; 0 || column &gt; 6) throw new RuntimeException(&quot;Nieprawidlowa kolumna&quot;);</span>
+<span class="fc" id="L105">	}</span>
+	
+	private void choosePlayer() {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if(selectedPlayer.equals(Colors.CZERWONY)) {</span>
+<span class="fc" id="L109">			selectedPlayer = Colors.ZIELONY;</span>
+<span class="fc" id="L110">			status = &quot;Kolejny gracz: Czerwony\n\n&quot;;</span>
+		}
+		else {
+<span class="fc" id="L113">			selectedPlayer = Colors.CZERWONY;</span>
+<span class="fc" id="L114">			status = &quot;Kolejny gracz: Zielony\n\n&quot;;</span>
+		}
+<span class="fc" id="L116">	}</span>
+	
+	private void printBoard() {
+		
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		for(int x = ROWS-1; 0 &lt;= x; x--) {</span>
+<span class="fc" id="L121">			StringJoiner boardGraphicStatus = new StringJoiner(&quot;|&quot;, &quot;|&quot;, &quot;|&quot;);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">			for(int y = 0; y &lt; COLUMNS; y++) {</span>
+<span class="fc" id="L123">				boardGraphicStatus.add(board[x][y].shortName);</span>
+			}
+<span class="fc" id="L125">			out.println(boardGraphicStatus.toString());</span>
+		}
+<span class="fc" id="L127">		out.print(status);</span>
+<span class="fc" id="L128">	}</span>
+	
+	private void checkForWin(int row, int column) {
+<span class="fc" id="L131">		Pattern winPattern = Pattern.compile(&quot;.*&quot; + selectedPlayer.shortName + &quot;{4}.*&quot;);</span>
+		
+<span class="fc" id="L133">		 String vertical = IntStream.range(0, ROWS)</span>
+<span class="fc" id="L134">                 .mapToObj(r -&gt; board[r][column].shortName).reduce(String::concat).get();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		 if(winPattern.matcher(vertical).matches()) {</span>
+<span class="fc" id="L136">			 status = &quot;Wygrywa: &quot; + selectedPlayer.name;</span>
+<span class="fc" id="L137">			 return;</span>
+		 } 
+		 
+<span class="fc" id="L140">		 String horizontal = IntStream.range(0, COLUMNS)</span>
+<span class="fc" id="L141">				 .mapToObj(c -&gt; board[row][c].shortName).reduce(String::concat).get().trim();</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		 if(winPattern.matcher(horizontal).matches()) {</span>
+<span class="fc" id="L143">			 status = &quot;Wygrywa: &quot; + selectedPlayer.name;</span>
+<span class="fc" id="L144">			 return;</span>
+		 }
+		 
+<span class="fc" id="L147">		 StringJoiner diagonalLeftBotToRightTop = new StringJoiner(&quot;&quot;);</span>
+<span class="fc" id="L148">		 int startOffset = Math.min(row, column);</span>
+<span class="fc" id="L149">		 int myColumn = column - startOffset;</span>
+<span class="fc" id="L150">		 int myRow = row - startOffset;</span>
+		 do {
+<span class="fc" id="L152">			 diagonalLeftBotToRightTop.add(board[myRow++][myColumn++].shortName);</span>
+<span class="fc bfc" id="L153" title="All 4 branches covered.">		 } while(myRow &lt; ROWS &amp;&amp; myColumn &lt; COLUMNS);</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		 if(winPattern.matcher(diagonalLeftBotToRightTop.toString()).matches()) {</span>
+<span class="fc" id="L155">			 status = &quot;Wygrywa: &quot; + selectedPlayer.name;</span>
+<span class="fc" id="L156">			 return;</span>
+		 }
+		 
+<span class="fc" id="L159">		 StringJoiner diagonalRightBotToLeftTop = new StringJoiner(&quot;&quot;);</span>
+<span class="fc" id="L160">		 startOffset = Math.min(row, (COLUMNS - 1) - column);</span>
+<span class="fc" id="L161">		 myColumn = column + startOffset;</span>
+<span class="fc" id="L162">		 myRow = row - startOffset;</span>
+		 do {
+<span class="fc" id="L164">			 diagonalRightBotToLeftTop.add(board[myRow++][myColumn--].shortName);</span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">		 } while(myRow &lt; ROWS &amp;&amp; myColumn &gt;= 0);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		 if(winPattern.matcher(diagonalRightBotToLeftTop.toString()).matches()) {</span>
+<span class="fc" id="L167">			 status = &quot;Wygrywa: &quot; + selectedPlayer.name;</span>
+<span class="fc" id="L168">			 return;</span>
+		 }
+		 
+		 
+<span class="fc" id="L172">	}</span>
+	
+	
+	public static void main(String[] args) {
+<span class="nc" id="L176">		Czworki czworki = new Czworki(System.out);</span>
+<span class="nc" id="L177">		int[] inputs = {2, 2, 3, 2, 2, 3, 3, 4, 4, 6, 5};</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		for(int column : inputs) {</span>
+<span class="nc" id="L179">			czworki.putDisc(column);</span>
+		}
+<span class="nc" id="L181">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

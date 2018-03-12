@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.debski.CzworkiSpec" tests="16" skipped="0" failures="0" errors="0" timestamp="2016-12-08T09:34:03" hostname="adam-P35-DS3" time="0.261">
+  <properties/>
+  <testcase name="whenPutDiscOutOfBoundsThenRuntimeException" classname="com.debski.CzworkiSpec" time="0.046"/>
+  <testcase name="whenGameStartsThenNotFinished" classname="com.debski.CzworkiSpec" time="0.002"/>
+  <testcase name="whenMoreThan3AdjacentDiscsInRowThenWin" classname="com.debski.CzworkiSpec" time="0.049"/>
+  <testcase name="whenSecondPlayerPlaysThenDiscColorIsGreen" classname="com.debski.CzworkiSpec" time="0.01"/>
+  <testcase name="whenAskedForCurrentPlayerThenRed" classname="com.debski.CzworkiSpec" time="0.001"/>
+  <testcase name="whenDiscIsIntroducedThenBoardIsPrinted" classname="com.debski.CzworkiSpec" time="0.003"/>
+  <testcase name="whenMoreThan3AdjacentDiscsInDiagonalFromLeftTopToRightBotThenWin" classname="com.debski.CzworkiSpec" time="0.017"/>
+  <testcase name="whenInstantiatedThenBoardIsEmpty" classname="com.debski.CzworkiSpec" time="0.002"/>
+  <testcase name="whenPutDiscToFullColumnThenRuntimeException" classname="com.debski.CzworkiSpec" time="0.005"/>
+  <testcase name="whenPutDiscThenRowEquals1" classname="com.debski.CzworkiSpec" time="0.007"/>
+  <testcase name="whenPutDiscToEmptyColumnThenRowEquals0" classname="com.debski.CzworkiSpec" time="0.002"/>
+  <testcase name="whenMoreThan3AdjacentDiscsInColumnThenWin" classname="com.debski.CzworkiSpec" time="0.004"/>
+  <testcase name="whenFullBoardThenFinished" classname="com.debski.CzworkiSpec" time="0.035"/>
+  <testcase name="whenMoreThan3AdjacentDiscsInDiagonalFromLeftBotToRightTopThenWin" classname="com.debski.CzworkiSpec" time="0.006"/>
+  <testcase name="whenPutDiscThenNumberOfDiscsIncreasesBy1" classname="com.debski.CzworkiSpec" time="0.003"/>
+  <testcase name="whenFirstPlayerPlaysThenDiscColorIsRed" classname="com.debski.CzworkiSpec" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
