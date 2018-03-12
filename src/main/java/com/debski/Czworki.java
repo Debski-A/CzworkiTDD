@@ -80,7 +80,7 @@ public class Czworki {
 //				.equals(board[row][column]))
 //				.count();
 //	}
-//	//TODO
+
 	
 	public int putDisc(int column) {
 		checkInput(column);
